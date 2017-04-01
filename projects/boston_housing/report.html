@@ -11779,7 +11779,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import libraries necessary for this project</span>
@@ -11859,23 +11859,28 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Minimum price of the data</span>
-<span class="n">minimum_price</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="c1"># minimum_price = prices.min()</span>
+<span class="n">minimum_price</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span>
 
 <span class="c1"># TODO: Maximum price of the data</span>
-<span class="n">maximum_price</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="c1"># maximum_price = prices.max()</span>
+<span class="n">maximum_price</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span>
 
 <span class="c1"># TODO: Mean price of the data</span>
-<span class="n">mean_price</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="c1"># mean_price = prices.mean()</span>
+<span class="n">mean_price</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span>
 
 <span class="c1"># TODO: Median price of the data</span>
-<span class="n">median_price</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="c1"># median_price = prices.median()</span>
+<span class="n">median_price</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span>
 
 <span class="c1"># TODO: Standard deviation of prices of the data</span>
-<span class="n">std_price</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="c1"># std_price = prices.std(ddof=0) </span>
+<span class="n">std_price</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span>
 <span class="c1"># or np.std(prices)</span>
 <span class="c1"># Bessel&#39;s correction to unbiased std: prices.std()</span>
 
@@ -11938,9 +11943,9 @@ Standard deviation of prices: $165,171.13
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
 <blockquote><ul>
-<li><code>'RM'</code>: an increase of <code>'RM'</code> would lead an <strong>increase</strong> in the value of <code>'MEDV'</code></li>
-<li><code>'LSTAT'</code>: an increase of <code>'LSTAT'</code> would lead a <strong>decrease</strong> in the value of <code>'MEDV'</code></li>
-<li><code>'PTRATIO'</code>: an increase of <code>'PTRATIO'</code> would lead an <strong>decrease</strong> in the value of <code>'MEDV'</code></li>
+<li><code>'RM'</code>: an increase of <code>'RM'</code> would lead an <strong>increase</strong> in the value of <code>'MEDV'</code>, since more rooms usually implies larger house, and larger house usually more expensive. </li>
+<li><code>'LSTAT'</code>: an increase of <code>'LSTAT'</code> would lead a <strong>decrease</strong> in the value of <code>'MEDV'</code>, since a higher neighborhood poverty rate might implies the average of the housing price is lower. Moreover if the poverty rate is higher, the public security might not be surfficient in the neighborhood. A lack of public security might means that the neighborhood is not very safe. This would affect the price of house.</li>
+<li><code>'PTRATIO'</code>: an increase of <code>'PTRATIO'</code> would lead an <strong>decrease</strong> in the value of <code>'MEDV'</code>, since there are more teachers or more schools in the neighborhood, which would attact the families who want their children to be not far from the school. More people want the house in the region would make the price of house higher. </li>
 </ul>
 </blockquote>
 
@@ -11976,7 +11981,7 @@ Standard deviation of prices: $165,171.13
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import &#39;r2_score&#39;</span>
@@ -12101,7 +12106,7 @@ Standard deviation of prices: $165,171.13
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import &#39;train_test_split&#39;</span>
@@ -13807,10 +13812,18 @@ when max_depth = 1, both training score and validation score are very low, which
 <blockquote><p>The k-fold cross-validation training technique is:</p>
 <ol>
 <li>split the training data into k smaller sets</li>
-<li>train the model with k-1 sets of training data</li>
+<li>for each of the k folds:<ul>
+<li>train a model with k-1 sets of training data</li>
 <li>validate the resulting model on the rest part of the data</li>
+</ul>
+</li>
+<li>The final model is then the average of the values computed in the above loop. </li>
 </ol>
-<p>The cross-validation provides a way to test and validate our model trained by the data. If there is no cross-validated set, in the grid search, the best fitted model might be the overfitted model if the degrees of freedom(dof.) of the parameters is higher than the dof. of the system we are modelling. The resulting model would suffer from high variance.</p>
+<p>The cross-validation provides a way to test and validate our model trained by the data. If there is no cross-validated set, in the grid search,</p>
+<ol>
+<li>the best fitted model might be the overfitted model if there are too many parameters. The resulting model would suffer from high variance. </li>
+<li>the model might depend on the choice of the train-test split of the data. A k-fold cross-validation will wipe out this dependence. </li>
+</ol>
 </blockquote>
 
 </div>
@@ -13848,7 +13861,7 @@ For the <code>fit_model</code> function in the code cell below, you will need to
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import &#39;make_scorer&#39;, &#39;DecisionTreeRegressor&#39;, and &#39;GridSearchCV&#39;</span>
@@ -13865,7 +13878,7 @@ For the <code>fit_model</code> function in the code cell below, you will need to
     <span class="c1">## version 0.17 &#39;n_iter&#39;, version 0.18 &#39;n_splits&#39;</span>
 
     <span class="c1"># TODO: Create a decision tree regressor object</span>
-    <span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">()</span>
+    <span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># TODO: Create a dictionary for the parameter &#39;max_depth&#39; with a range from 1 to 10</span>
     <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)}</span>
@@ -13913,7 +13926,7 @@ For the <code>fit_model</code> function in the code cell below, you will need to
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Fit the training data to the model using grid search</span>
@@ -13998,7 +14011,7 @@ For the <code>fit_model</code> function in the code cell below, you will need to
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Produce a matrix for client data</span>
@@ -14026,6 +14039,113 @@ Predicted selling price for Client 2&#39;s home: $189,123.53
 Predicted selling price for Client 3&#39;s home: $942,666.67
 </pre>
 </div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">price</span> <span class="ow">in</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">client_data</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
 </div>
 
 </div>
@@ -14124,6 +14244,7 @@ Range in prices: $69,044.61
 <p>First of all, the data that is used for constructing the model was collected from 1987, 30 years ago. In 30 years, Boston may change a lot in the 30 years. Even though the features we are considering are quite universal, the data is still too old to reflect the prices of today. The statistics and distributions of the prices could change a lot.</p>
 <p>Even the data can be used, the features we are considering might not be enough. There are several features that should be considered, such as the distance from commercial center, the distance from metro station, in which district of Boston... If the model is used to make predition in the real world, it will suffer from high bias.</p>
 <p>Even the data and the feature is okay, the model can only used in Boston surburbs area. It cannot be used for rural area, it cannot even used for other cities. The parameters of the model has to be trained depending on the city it concerns.</p>
+<p>I think the model is not robust enough because in the sensitivity analysis, the variation of its prediction for the same house is more than 13% of the price.</p>
 </blockquote>
 
 </div>
