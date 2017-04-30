@@ -11865,7 +11865,7 @@ div#notebook {
 <blockquote><ul>
 <li>The Smartcab does not move while other caps are moving according to the traffic light. </li>
 <li>The drving agent is recieving positive or negative reward based on whether the agent commits a traffic violation or not.</li>
-<li>Since the Smartcab doesn't move, when the light changes from green to red, the smartcab does not violate traffic rule, the reward becomes positive; while when the light changes from red to green, the smartcab violate traffic rule, the reward becomes negative. </li>
+<li>Since the Smartcab doesn't move, when the light is red, the smartcab does not violate traffic rule, the reward is positive; while when the light is green, if there is no oncoming car, the smartcab violate traffic rule, the reward is negative. </li>
 </ul>
 </blockquote>
 
@@ -11949,7 +11949,7 @@ Run the agent.py file after setting the flags from projects/smartcab folder inst
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Load the &#39;sim_no-learning&#39; log file from the initial simulation results</span>
@@ -13686,10 +13686,10 @@ kiR1wmBKkiRJkiRJnTCYkiRJkiRJUicMpiRJkiRJktSJ/w8DrlAkRQnj1gAAAABJRU5ErkJggg==
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <blockquote><ul>
-<li>The frequency of the bad decisions is around 3.36, where minor and major accidents are around 0.045 and 0.084 , respectively, in total with frequency of 0.12.</li>
+<li>The frequency of the bad decisions is around 0.36, where minor and major accidents are around 0.045 and 0.084 , respectively, in total with frequency of 0.12.</li>
 <li>Since the agent is driving randomly, the reliability is less than 10% seems reasonable.</li>
 <li>The average reward per action is around -5. Remind the frequency of the bad decisions, the agent has been penalized heavily.</li>
-<li>I don't see any significant change of the outcome of results as the number of trials increases.</li>
+<li>I don't see any significant change of the outcome of results as the number of trials increases. This is because the agent is always taking a random action. Any increases or decreases would just be noise fluctuating around the mean.</li>
 <li>This Smartcab definitely would not be considered safe and reliable for its passengers, because it makes too many bad decisions and causes too many accidents. </li>
 </ul>
 </blockquote>
@@ -13755,7 +13755,7 @@ kiR1wmBKkiRJkiRJnTCYkiRJkiRJUicMpiRJkiRJktSJ/w8DrlAkRQnj1gAAAABJRU5ErkJggg==
 <p><code>right</code> and <code>deadline</code> are not very useful for modeling.</p>
 <ul>
 <li>Cars from <code>right</code> is not very important because when light is green, no matter there is a car from right, the Smartcab has the priority to go first.</li>
-<li>The Smartcab does not need to know the <code>deadline</code> because during the training, the Smartcab would try its best to find the way to the destination. </li>
+<li>The Smartcab does not need to know the <code>deadline</code> because during the training, the Smartcab would try its best to find the way to the destination. Furthermore, since <code>deadline</code> has around 100 values, adding the <code>deadline</code> would increase the size of the state space enormously. This is not good for the learning efficiency. </li>
 </ul>
 </blockquote>
 
@@ -18449,8 +18449,8 @@ $$
 $$
 This decaying function gives more probability to random action in first 150 training trials, such that the agent would have more chances to traverse possible states and actions. After the first 150 training trials, the highest Q-value actions have higher and higher probability, and the decaying function fast shrinks to 0.01 in around 150 trials. </li>
 <li>Around 380 training trials were performed before testing. From the plots above, I think around 250 training trials is needed at least.</li>
-<li>The $epsilon$-tolerance is 0.001 and $\alpha$ is 0.5. Setting the tolerance to 0.001 is because I want to observe the stability of the optimized policy. In fact, 0.01 of the tolerance is enough during the tuning the parameters. 0.5 of $\alpha$ is just to make sure our policy converging in a farely speed.</li>
-<li>Compare to the default Q-Learner, this one improves both safty rating and reliability rating to A+. </li>
+<li>The $\epsilon$-tolerance is 0.001 and $\alpha$ is 0.5. Setting the tolerance to 0.001 is because I want to observe the stability of the optimized policy. In fact, 0.01 of the tolerance is enough during the tuning the parameters. 0.5 of $\alpha$ is just to make sure our policy converging in a farely speed.</li>
+<li>Compare to the default Q-Learner, this one improves both safty rating and reliability rating to A+. The frequency of the bad actions decrease slower with more noise than the one of the default Q-learner. This is because the new learner prefer random action for the first 150 training trials. The reliability rate increase this time. And the average reward becomes positive after 200 training trials, while for the default learner, the rewards is below zero. </li>
 <li>I think the Q-Learner results show the agent learned an appropriate policy.</li>
 <li>I am quite satisfied with the safety and reliability ratings. </li>
 </ul>
