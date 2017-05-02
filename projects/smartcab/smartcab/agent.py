@@ -199,7 +199,7 @@ def run():
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(tolerance=0.001, n_test=30)
+    sim.run(tolerance=0.001, n_test=100)
 
 
 if __name__ == '__main__':
