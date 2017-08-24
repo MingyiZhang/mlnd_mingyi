@@ -201,48 +201,50 @@ def _get_dataset_filename(dataset_dir, split_name, shard_id, tfrecord_filename, 
 
 
 def _convert_dataset(split_name, filenames, class_names_to_ids, dataset_dir, tfrecord_filename, _NUM_SHARDS):
-  """Converts the given filenames to a TFRecord dataset.
-  Args:
-    split_name: The name of the dataset, either 'train' or 'validation'.
-    filenames: A list of absolute paths to png or jpg images.
-    class_names_to_ids: A dictionary from class names (strings) to ids
-      (integers).
-    dataset_dir: The directory where the converted datasets are stored.
-  """
-  assert split_name in ['train', 'validation']
+    """Converts the given filenames to a TFRecord dataset.
+    Args:
+      split_name: The name of the dataset, either 'train' or 'validation'.
+      filenames: A list of absolute paths to png or jpg images.
+      class_names_to_ids: A dictionary from class names (strings) to ids
+        (integers).
+      dataset_dir: The directory where the converted datasets are stored.
+    """
+    assert split_name in ['train', 'validation', 'test']
 
-  num_per_shard = int(math.ceil(len(filenames) / float(_NUM_SHARDS)))
+    num_per_shard = int(math.ceil(len(filenames) / float(_NUM_SHARDS)))
 
-  with tf.Graph().as_default():
-    image_reader = ImageReader()
+    with tf.Graph().as_default():
+      image_reader = ImageReader()
 
-    with tf.Session('') as sess:
+      with tf.Session('') as sess:
 
-      for shard_id in range(_NUM_SHARDS):
-        output_filename = _get_dataset_filename(
-            dataset_dir, split_name, shard_id, tfrecord_filename = tfrecord_filename, _NUM_SHARDS = _NUM_SHARDS)
+        for shard_id in range(_NUM_SHARDS):
+          output_filename = _get_dataset_filename(
+              dataset_dir, split_name, shard_id, tfrecord_filename = tfrecord_filename, _NUM_SHARDS = _NUM_SHARDS)
 
-        with tf.python_io.TFRecordWriter(output_filename) as tfrecord_writer:
-          start_ndx = shard_id * num_per_shard
-          end_ndx = min((shard_id+1) * num_per_shard, len(filenames))
-          for i in range(start_ndx, end_ndx):
-            sys.stdout.write('\r>> Converting image %d/%d shard %d' % (
-                i+1, len(filenames), shard_id))
-            sys.stdout.flush()
+          with tf.python_io.TFRecordWriter(output_filename) as tfrecord_writer:
+            start_ndx = shard_id * num_per_shard
+            end_ndx = min((shard_id+1) * num_per_shard, len(filenames))
+            for i in range(start_ndx, end_ndx):
+              sys.stdout.write('\r>> Converting image {}/{} shard {}'.format(i+1, len(filenames), shard_id))
+              sys.stdout.flush()
 
-            # Read the filename:
-            image_data = tf.gfile.FastGFile(filenames[i], 'rb').read()
-            height, width = image_reader.read_image_dims(sess, image_data)
+              # Read the filename:
+              image_data = tf.gfile.FastGFile(filenames[i], 'rb').read()
+              height, width = image_reader.read_image_dims(sess, image_data)
 
-            class_name = os.path.basename(os.path.dirname(filenames[i]))
-            class_id = class_names_to_ids[class_name]
+              if split_name != 'test':
+                  class_name = os.path.basename(os.path.dirname(filenames[i]))
+                  class_id = class_names_to_ids[class_name]
+              else:
+                  img = os.path.splitext(os.path.basename(filenames[i]))[0]
+                  class_id = int(img[4:])
 
-            example = image_to_tfexample(
-                image_data, 'jpg'.encode(), height, width, class_id)
-            tfrecord_writer.write(example.SerializeToString())
+              example = image_to_tfexample(image_data, 'jpg'.encode(), height, width, class_id)
+              tfrecord_writer.write(example.SerializeToString())
 
-  sys.stdout.write('\n')
-  sys.stdout.flush()
+    sys.stdout.write('\n')
+    sys.stdout.flush()
 
 def _dataset_exists(dataset_dir, _NUM_SHARDS, output_filename):
   for split_name in ['train', 'validation']:
