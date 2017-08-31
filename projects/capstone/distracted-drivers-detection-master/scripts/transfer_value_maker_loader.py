@@ -179,11 +179,70 @@ def tv_maker(MODEL, split_name, dataset_dir, file_pattern, tf_dir, checkpoint_fi
 
         with sv.managed_session() as sess:
             filename = tf_dir + '/' + split_name + '.tfrecord'
+            print('Writing file {}...'.format(filename))
             with tf.python_io.TFRecordWriter(filename) as writer:
                 for i in tqdm(range(dataset.num_samples)):
                     arrays, array_labels, img_names = sess.run([net, labels, image_names])
                     array, array_label, img_name = np.array(arrays[0]), array_labels[0], img_names[0].decode()
                     array_to_tfrecord(array, array_label, img_name, writer)
+            print('{} complete.'.format(filename))
+            
+            
+def tv_maker_avg(MODEL, split_name, dataset_dir, file_pattern, tf_dir, checkpoint_file, log_dir):
+    with tf.Graph().as_default() as graph:
+        tf.logging.set_verbosity(tf.logging.INFO)
+
+        # load model
+        model = nets_factory.get_network_fn(MODEL, num_classes=10, is_training=False)
+        # get image size
+        image_size = model.default_image_size
+
+
+        dataset = get_split(split_name=split_name, 
+                            dataset_dir=dataset_dir, 
+                            file_pattern=file_pattern, 
+                            file_pattern_for_counting='drivers', 
+                            items_to_descriptions=None)
+        images, _, labels, image_names = load_batch(
+            dataset=dataset, 
+            batch_size=1, 
+            MODEL=MODEL, 
+            height=image_size, 
+            width=image_size, 
+            is_training=False)
+
+        _, endpoints = model(images)
+
+        base_scope = base_layer(MODEL)
+
+        net = endpoints[base_scope]
+        shape = net.get_shape()[1:]
+        net = tf.layers.average_pooling2d(inputs=net,
+                                          pool_size=shape[:2],
+                                          strides=1,
+                                          padding='valid',
+                                          name='Avg_pool')
+        # net = tf.squeeze(net, [1, 2], name='Squeeze')
+        shape = net.get_shape()[1:]
+        write_shape_file(shape, MODEL, tf_dir)
+
+        exclusion = exclude_scope(MODEL)
+        variables_to_restore = slim.get_variables_to_restore(exclude=exclusion)
+        saver = tf.train.Saver(variables_to_restore)
+        def restore_fn(sess):
+            return saver.restore(sess, checkpoint_file)
+
+        sv = tf.train.Supervisor(logdir=log_dir, summary_op=None, saver=None, init_fn=restore_fn)
+
+        with sv.managed_session() as sess:
+            filename = tf_dir + '/' + split_name + '.tfrecord'
+            print('Writing file {}...'.format(filename))
+            with tf.python_io.TFRecordWriter(filename) as writer:
+                for i in tqdm(range(dataset.num_samples)):
+                    arrays, array_labels, img_names = sess.run([net, labels, image_names])
+                    array, array_label, img_name = np.array(arrays[0]), array_labels[0], img_names[0].decode()
+                    array_to_tfrecord(array, array_label, img_name, writer)
+            print('{} complete.'.format(filename))
     
 ####################################################
 ###            transfer-value loder              ###
